@@ -41,32 +41,20 @@ CREATE TABLE purchase(
 INSERT INTO ingredient
   (name, quantity, description)
 VALUES
-  ('pickles', 230, 'grams'),
-  ('onion', 1500, 'grams'),
-  ('bun', 25, 'units'),
-  ('tomato', 1000, 'grams'),
+  ('pickles', 300, 'grams'),
+  ('onion', 500, 'grams'),
+  ('bun', 30, 'units'),
+  ('tomato', 500, 'grams'),
   ('ketchup', 500, 'grams'),
-  ('lettuce', 300, 'grams'),
+  ('lettuce', 500, 'grams'),
   ('egg', 20, 'units'),
-  ('beef', '1000', 'grams');
-
-INSERT INTO ingredient
-   (name, quantity, description)
-VALUES
-   ('cheese', 1000, 'grams'),
-   ('chicken', 1000, 'grams'),
-   ('fish', 1000, 'grams'),
-   ('fish sauce', 1000, 'milliliters');
-
-INSERT INTO ingredient
-   (name, quantity, description)
-VALUES
-   ('mustard', 500, 'grams');
-
-INSERT INTO ingredient
-   (name, quantity, description)
-VALUES
-   ('mayo', 500, 'grams');
+  ('beef', '500', 'grams'),
+  ('cheese', 250, 'grams'),
+  ('chicken', 500, 'grams'),
+  ('fish', 500, 'grams'),
+  ('fish sauce', 200, 'milliliters'),
+  ('mustard', 300, 'grams'),
+  ('mayo', 300, 'grams');
 
   INSERT INTO burger 
      (name, description)
