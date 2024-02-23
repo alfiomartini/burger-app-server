@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Swagger Burger App
+  description: This is a server with endpoints for _ingredients_, _burgers_ types and related _purchases_.
+  version: 1.0.0
+servers:
+  - url: http://localhost:4500
+tags:
+  - name: ingredients
+    description: CRUD operations on _ingredients_
+paths:
+  /ingredient:
+    get:
+      tags:
+        - ingredients
+      summary: returns all ingredients in the database
+      description: fetch all ingredients
+      responses:
+        "200":
+          description: successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ingredient"
+        "400":
+          description: Malformed request syntax
+        "404":
+          description: Resource not found
+        "500":
+          description: Internal server error
+    post:
+      tags:
+        - ingredients
+      summary: create a new ingredient in the database
+      description: add a new ingredient to the database
+      requestBody:
+        description: ingreadient to be created
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostReqIngredientBody"
+        required: true
+      responses:
+        "201":
+          description: successful creation of ingredient
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReqIngredientResp"
+        "400":
+          description: Malformed request syntax
+        "404":
+          description: Resource not found
+        "500":
+          description: Internal server error
+  /ingredient/{id}:
+    get:
+      tags:
+        - ingredients
+      summary: fetch a particular ingredient defined by the parameter id
+      description: returns the ingredient denoted by the parameter id
+      parameters:
+        - name: id
+          in: path
+          description: id of the ingredient
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successfull request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ingredient"
+    delete:
+      tags:
+        - ingredients
+      summary: remove a particular ingredient defined by the parameter id
+      description: delete the indgredient denoted by the parameter id
+      parameters:
+        - name: id
+          in: path
+          description: id of the ingredient
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successfull request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReqIngredientResp"
+        "400":
+          description: Malformed request syntax
+        "404":
+          description: Resource not found
+        "500":
+          description: Internal server error
+    patch:
+      tags:
+        - ingredients
+      summary: update a particular ingredient defined by the parameter id
+      description: upgrade the indgredient denoted by the parameter id
+      parameters:
+        - name: id
+          in: path
+          description: id of the ingredient
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: ingreadient to be updated
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Ingredient"
+        required: true
+      responses:
+        "200":
+          description: successful request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ingredient"
+        "400":
+          description: Malformed request syntax
+        "404":
+          description: Resource not found
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    Ingredient:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 10
+        name:
+          type: string
+          example: chicken
+        quantity:
+          type: integer
+          example: 500
+        description:
+          type: string
+          example: grams
+    PostReqIngredientBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: beef fillet
+        quantity:
+          type: integer
+          example: 1000
+        description:
+          type: string
+          example: grams
+    ReqIngredientResp:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 479d
+        name:
+          type: string
+          example: beef fillet
+        quantity:
+          type: integer
+          example: 1000
+        description:
+          type: string
+          example: grams
