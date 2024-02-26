@@ -21,9 +21,20 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { name, quantity, description } = req.body;
-  res.json({ name, quantity, description });
+  try {
+    const [results] = await connection.query(
+      `insert into ingredient (name, quantity, description)
+       values(?,?,?)`,
+      [name, quantity, description]
+    );
+    res
+      .status(201)
+      .json({ ing_id: results.insertId, name, quantity, description });
+  } catch (error) {
+    console.log("post ingredient", error);
+  }
 });
 
 router.get("/:id", async (req, res) => {
@@ -34,6 +45,7 @@ router.get("/:id", async (req, res) => {
       [id]
     );
     console.log("results", results);
+    // test if results is not empty
     res.status(200).json(results[0]);
   } catch (error) {
     console.log("get all ingredients", error);
