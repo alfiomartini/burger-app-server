@@ -1,7 +1,6 @@
 export const getAllIngredients = (connection) => async (req, res) => {
   try {
     const [results] = await connection.query("select * from ingredient");
-    console.log("results", results);
     res.status(200).json(results);
   } catch (error) {
     console.log("get all ingredients", error);
@@ -33,7 +32,6 @@ export const getIngredientId = (connection) => async (req, res) => {
       "select * from ingredient where ing_id = ?",
       [id]
     );
-    console.log("results", results);
     // test if results is not empty
     res.status(200).json(results[0]);
   } catch (error) {
@@ -49,7 +47,6 @@ export const deleteIngredientId = (connection) => async (req, res) => {
       "delete from ingredient where ing_id = ?",
       [id]
     );
-    console.log("results", results);
     // test if results is not empty
     res.status(200).send(`Record successfully deleted`);
   } catch (error) {
