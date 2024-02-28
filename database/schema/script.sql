@@ -1,4 +1,7 @@
--- Tables
+DROP DATABASE burger_app;
+CREATE DATABASE burger_app;
+
+- Tables
 CREATE TABLE ingredient(
   ing_id INT AUTO_INCREMENT,
   name VARCHAR(30) NOT NULL,
