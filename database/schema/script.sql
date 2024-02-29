@@ -56,7 +56,7 @@ VALUES
   ('cheese', 250, 'grams'),  -- 9
   ('chicken', 500, 'grams'),  -- 10
   ('fish', 500, 'grams'), -- 11
-  ('fish sauce', 200, 'milliliters'), -- 12
+  ('fish sauce', 200, 'ml'), -- 12
   ('mustard', 300, 'grams'), -- 13
   ('mayo', 300, 'grams'); -- 14
 
