@@ -17,21 +17,19 @@ services:
       db:
         condition: service_healthy
   db:
-    image: mysql
+    image: mysql:8.3
     restart: unless-stopped
-    expose:
-      - 3306
     ports:
-      - 3306:3306
+      - "3307:3306"
     volumes:
-      - ./database/schema/queries.sql:/docker-entrypoint-initdb.d/0_queries.sql
+      - ./database/schema/script.sql:/docker-entrypoint-initdb.d/0_script.sql
       - db-data:/var/lib/msql
     environment:
-      - MYSQL_DATABASE=burger_app
       - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=burger_app
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 30s
-      retries: 3
+      timeout: 20s
+      retries: 10
 volumes:
   db-data:
