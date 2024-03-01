@@ -1,22 +1,8 @@
 # 'docker compose down -v'
 # 'docker compose up --force-recreate'
+# creates dockerized mysql container with populated db burger_app
+
 services:
-  # api:
-  #   build:
-  #     context: .
-  #   # environment:
-  #   #   - MYSQL_USER=root
-  #   #   - MYSQL_PWD=password
-
-  #   ports:
-  #     - 5500:5500
-
-  #   volumes:
-  #     - .:/app
-  #     - /app/node_modules
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
   db:
     image: mysql:8.3
     restart: always
@@ -26,8 +12,8 @@ services:
       - ./database/schema/script.sql:/docker-entrypoint-initdb.d/0_script.sql
       - db-data:/var/lib/msql
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=burger_app
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PWD}
+      - MYSQL_DATABASE=${MYSQL_DB}
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
