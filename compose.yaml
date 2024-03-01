@@ -1,24 +1,25 @@
-# run this file as: 'docker compose up'
+# 'docker compose down -v'
+# 'docker compose up --force-recreate'
 services:
-  api:
-    build:
-      context: .
-    environment:
-      - MYSQL_USER=root
-      - MYSQL_PWD=password
+  # api:
+  #   build:
+  #     context: .
+  #   # environment:
+  #   #   - MYSQL_USER=root
+  #   #   - MYSQL_PWD=password
 
-    ports:
-      - 5500:5500
+  #   ports:
+  #     - 5500:5500
 
-    volumes:
-      - .:/app
-      - /app/node_modules
-    depends_on:
-      db:
-        condition: service_healthy
+  #   volumes:
+  #     - .:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
   db:
     image: mysql:8.3
-    restart: unless-stopped
+    restart: always
     ports:
       - "3307:3306"
     volumes:
