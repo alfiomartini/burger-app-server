@@ -1,12 +1,12 @@
 import express from "express";
-import { connection } from "../database/client/index.js";
+import { connection } from "../database/client/index";
 import {
   getAllIngredients,
   postIngredient,
   getIngredientId,
   deleteIngredientId,
   patchIngredientId,
-} from "../controllers/ingredients.js";
+} from "../controllers/ingredients";
 
 const router = express.Router();
 
