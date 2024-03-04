@@ -1,5 +1,6 @@
 import { Pool, RowDataPacket } from "mysql2/promise";
 import { Request, Response } from "express";
+import { Ingredient, WeakIngredient } from "../interfaces";
 export const getAllIngredients =
   (connection: Pool) => async (req: Request, res: Response) => {
     try {
@@ -7,7 +8,7 @@ export const getAllIngredients =
         "select * from ingredient"
       );
       if (Array.isArray(results)) {
-        const normalized = results.map((item) => ({
+        const normalized: Ingredient[] = results.map((item) => ({
           name: item.name,
           quantity: item.quantity,
           description: item.description,
@@ -25,8 +26,8 @@ export const getAllIngredients =
 
 export const postIngredient =
   (connection: Pool) => async (req: Request, res: Response) => {
-    const { name, quantity, description } = req.body;
     try {
+      const { name, quantity, description }: Ingredient = req.body;
       const [results] = (await connection.query(
         `insert into ingredient (name, quantity, description)
        values(?,?,?)`,
@@ -43,14 +44,19 @@ export const postIngredient =
 
 export const getIngredientId =
   (connection: Pool) => async (req: Request, res: Response) => {
-    const { id } = req.params;
     try {
+      const { id } = req.params;
       const [results] = (await connection.query(
         "select * from ingredient where ing_id = ?",
         [id]
       )) as any;
       // test if results is not empty
-      const { id: ing_id, quantity, description, name } = results[0];
+      const {
+        id: ing_id,
+        quantity,
+        description,
+        name,
+      }: Ingredient = results[0];
       res.status(200).json({ id, name, quantity, description });
     } catch (error) {
       console.log("get ingredient/id", error);
@@ -60,8 +66,8 @@ export const getIngredientId =
 
 export const deleteIngredientId =
   (connection: Pool) => async (req: Request, res: Response) => {
-    const { id } = req.params;
     try {
+      const { id } = req.params;
       const [results] = await connection.query(
         "delete from ingredient where ing_id = ?",
         [id]
@@ -76,13 +82,13 @@ export const deleteIngredientId =
 
 export const patchIngredientId =
   (connection: Pool) => async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { name, quantity, description } = req.body;
     try {
+      const { id } = req.params;
+      const { name, quantity, description }: WeakIngredient = req.body;
       const [results] = await connection.query(
         `update ingredient 
-       set name=?, quantity = ?, description=?
-       where ing_id = ?`,
+        set name=?, quantity = ?, description=?
+        where ing_id = ?`,
         [name, quantity, description, id]
       );
       res.status(200).json({ id, name, quantity, description });
