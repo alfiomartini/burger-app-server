@@ -1,6 +1,6 @@
 import { Pool, RowDataPacket } from "mysql2/promise";
 import { Request, Response } from "express";
-import { Ingredient, WeakIngredient } from "../interfaces";
+import { Ingredient, WeakIngredient } from "../interfaces/types";
 export const getAllIngredients =
   (connection: Pool) => async (req: Request, res: Response) => {
     try {

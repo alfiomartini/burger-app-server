@@ -1,5 +1,5 @@
 import express from "express";
-import { connection } from "../database/client/index";
+import { connection } from "../database/client/client";
 import {
   getAllIngredients,
   postIngredient,
