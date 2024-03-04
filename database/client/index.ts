@@ -1,13 +1,14 @@
-import mysql from "mysql2/promise";
+import mysql, { PoolOptions } from "mysql2/promise";
 import "dotenv/config";
 
 // Create the connection pool. The pool-specific settings are the defaults
-const pool = mysql.createPool({
+const PORT = process.env.MYSQL_PORT as number | undefined;
+const access: PoolOptions = {
   host: process.env.MYSQL_HOST,
   user: process.env.MYSQL_USER,
   database: process.env.MYSQL_DB,
   password: process.env.MYSQL_PWD,
-  port: process.env.MYSQL_PORT,
+  port: PORT,
   waitForConnections: true,
   connectionLimit: 10,
   maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`
@@ -15,6 +16,7 @@ const pool = mysql.createPool({
   queueLimit: 0,
   enableKeepAlive: true,
   keepAliveInitialDelay: 0,
-});
+};
+const pool = mysql.createPool(access);
 
 export { pool as connection };

@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import ingredientRoutes from "./routes/ingredients.js";
@@ -12,8 +12,10 @@ app.use(bodyParser.json());
 
 app.use("/ingredient", ingredientRoutes);
 
-app.get("/", (req, res) => res.send("Welcome to the Burger App API"));
-app.all("*", (req, res) =>
+app.get("/", (req: Request, res: Response) =>
+  res.send("Welcome to the Burger App API")
+);
+app.all("*", (req: Request, res: Response) =>
   res.send("You have tried reaching a route that does not exist")
 );
 

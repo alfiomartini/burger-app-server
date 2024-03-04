@@ -1,4 +1,4 @@
-# docker compose up
+# scripts: 'docker compose config', 'docker compose down', 'docker compose up'
 # creates dockerized mysql container with populated db burger_app
 
 services:
@@ -8,8 +8,9 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      # this script will only runs when the container is first created
+      # this script only runs when the container is first created
       - ./database/schema/script.sql:/docker-entrypoint-initdb.d/0_script.sql
+      # persistence of table data inbetween container creation and deletion
       - db-data:/var/lib/msql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_PWD}
