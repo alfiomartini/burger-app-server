@@ -1,4 +1,5 @@
-# scripts: 'docker compose down -v', 'docker compose up --force-recreate'
+version: "3.8"
+# scripts: 'docker compose stop', 'docker compose up'
 # creates dockerized mysql container with populated db burger_app
 
 services:
@@ -11,7 +12,7 @@ services:
 
     volumes:
       - .:/app
-      - /app/node_modules
+      - express-burger:/app/node_modules
 
     networks:
       - mynetwork
@@ -24,6 +25,9 @@ services:
     image: mysql:8.3
 
     restart: always
+
+    ports:
+      - 3307:3306
 
     networks:
       - mynetwork
@@ -45,6 +49,7 @@ services:
 
 volumes:
   db-data:
+  express-burger:
 networks:
   mynetwork:
     driver: bridge

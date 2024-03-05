@@ -41,8 +41,6 @@ CREATE TABLE IF NOT EXISTS purchase(
 );
 
 -- insertion of data
-
-
  
 INSERT IGNORE INTO ingredient 
    (name, quantity, description)
