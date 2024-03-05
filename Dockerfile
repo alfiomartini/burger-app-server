@@ -1,5 +1,5 @@
 # set the base image to create the image for react app
-FROM node:lts
+FROM node:20-alpine
 
 # set the working directory to /app
 WORKDIR /app

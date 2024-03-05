@@ -4,11 +4,10 @@ import "dotenv/config";
 // Create the connection pool. The pool-specific settings are the defaults
 const PORT = process.env.MYSQL_PORT as number | undefined;
 const access: PoolOptions = {
-  host: process.env.MYSQL_HOST,
+  host: "mysql-db",
   user: process.env.MYSQL_USER,
   database: process.env.MYSQL_DB,
   password: process.env.MYSQL_PWD,
-  port: PORT,
   waitForConnections: true,
   connectionLimit: 10,
   maxIdle: 10, // max idle connections, the default value is the same as `connectionLimit`

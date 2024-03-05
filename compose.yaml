@@ -1,23 +1,50 @@
-# scripts: 'docker compose config', 'docker compose down', 'docker compose up'
+# scripts: 'docker compose down -v', 'docker compose up --force-recreate'
 # creates dockerized mysql container with populated db burger_app
 
 services:
-  db:
-    image: mysql:8.3
-    restart: always
+  api:
+    build:
+      context: .
+
     ports:
-      - "3307:3306"
+      - 5500:5500
+
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+    networks:
+      - mynetwork
+
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+
+  mysql-db:
+    image: mysql:8.3
+
+    restart: always
+
+    networks:
+      - mynetwork
+
     volumes:
       # this script only runs when the container is first created
-      - ./database/schema/script.sql:/docker-entrypoint-initdb.d/0_script.sql
+      - ./src/database/schema/script.sql:/docker-entrypoint-initdb.d/0_script.sql
       # persistence of table data inbetween container creation and deletion
       - db-data:/var/lib/msql
+
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_PWD}
       - MYSQL_DATABASE=${MYSQL_DB}
+
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+
 volumes:
   db-data:
+networks:
+  mynetwork:
+    driver: bridge
