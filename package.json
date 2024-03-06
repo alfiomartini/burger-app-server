@@ -10,7 +10,7 @@
     "transpile": "npx tsc",
     "fix": "fix-esm-import-path --process-import-type dist/index.js",
     "lint": "npx eslint --ignore-path .eslintignore .",
-    "format": "prettier --ignore-path .gitignore \"**/*.+(js|ts|json)\""
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts)\""
   },
   "keywords": [],
   "author": "",
