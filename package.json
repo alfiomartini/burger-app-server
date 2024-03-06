@@ -9,7 +9,8 @@
     "build": "run-s transpile  fix",
     "transpile": "npx tsc",
     "fix": "fix-esm-import-path --process-import-type dist/index.js",
-    "lint": "eslint --ignore-path .eslintignore ."
+    "lint": "npx eslint --ignore-path .eslintignore .",
+    "format": "prettier --ignore-path .gitignore \"**/*.+(js|ts|json)\""
   },
   "keywords": [],
   "author": "",
