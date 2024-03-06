@@ -1,4 +1,4 @@
-import { Pool, RowDataPacket } from "mysql2/promise";
+import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { Request, Response } from "express";
 import { Ingredient, WeakIngredient } from "../interfaces/types";
 export const getAllIngredients =
@@ -28,14 +28,17 @@ export const postIngredient =
   (connection: Pool) => async (req: Request, res: Response) => {
     try {
       const { name, quantity, description }: Ingredient = req.body;
-      const [results] = (await connection.query(
+      const [result] = await connection.query(
         `insert into ingredient (name, quantity, description)
        values(?,?,?)`,
         [name, quantity, description]
-      )) as any;
-      res
-        .status(201)
-        .json({ id: results.insertId, name, quantity, description });
+      );
+      res.status(201).json({
+        id: (result as ResultSetHeader).insertId,
+        name,
+        quantity,
+        description,
+      });
     } catch (error) {
       console.log("post ingredient", error);
       res.status(500).send("Internal server error");
@@ -46,18 +49,19 @@ export const getIngredientId =
   (connection: Pool) => async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const [results] = (await connection.query(
+      const [results] = await connection.query(
         "select * from ingredient where ing_id = ?",
         [id]
-      )) as any;
-      // test if results is not empty
-      const {
-        id: ing_id,
-        quantity,
-        description,
-        name,
-      }: Ingredient = results[0];
-      res.status(200).json({ id, name, quantity, description });
+      );
+
+      // missing: test if results is not empty
+      const castResult = (results as RowDataPacket[])[0];
+      res.status(200).json({
+        id: castResult.ing_id,
+        name: castResult.name,
+        quantity: castResult.quantity,
+        description: castResult.description,
+      });
     } catch (error) {
       console.log("get ingredient/id", error);
       res.status(500).send("Internal server error");
@@ -68,10 +72,7 @@ export const deleteIngredientId =
   (connection: Pool) => async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
-      const [results] = await connection.query(
-        "delete from ingredient where ing_id = ?",
-        [id]
-      );
+      await connection.query("delete from ingredient where ing_id = ?", [id]);
       // test if results is not empty
       res.status(200).send(`Record successfully deleted`);
     } catch (error) {
@@ -85,7 +86,7 @@ export const patchIngredientId =
     try {
       const { id } = req.params;
       const { name, quantity, description }: WeakIngredient = req.body;
-      const [results] = await connection.query(
+      await connection.query(
         `update ingredient 
         set name=?, quantity = ?, description=?
         where ing_id = ?`,

@@ -10,6 +10,10 @@ services:
     ports:
       - 5500:5500
 
+    environment:
+      # this is needed for hot reload (at least in windows)
+      - CHOKIDAR_USEPOLLING=true
+
     volumes:
       - .:/app
       - express-burger:/app/node_modules

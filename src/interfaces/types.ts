@@ -11,3 +11,10 @@ export interface WeakIngredient {
   quantity: number;
   description: string;
 }
+
+export interface DBIngredient {
+  ing_id: number;
+  name: string;
+  quantity: number;
+  description: string;
+}

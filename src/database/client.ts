@@ -2,7 +2,7 @@ import mysql, { PoolOptions } from "mysql2/promise";
 import "dotenv/config";
 
 // Create the connection pool. The pool-specific settings are the defaults
-const PORT = process.env.MYSQL_PORT as number | undefined;
+// const PORT = process.env.MYSQL_PORT as number | undefined;
 const access: PoolOptions = {
   host: "mysql-db",
   user: process.env.MYSQL_USER,
